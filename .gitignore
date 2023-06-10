@@ -1,0 +1,4 @@
+*.ipynb
+Kmeans_env/
+__pycache__/
+*.python-version
