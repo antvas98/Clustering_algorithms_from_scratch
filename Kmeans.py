@@ -13,6 +13,7 @@ class Standarized_Kmeans:
         # Initialize centroids
         centroids = np.zeros([self.k, data.shape[1]])
         random_indices = np.random.choice(data.shape[0], size=self.k, replace=False)
+        K=self.k
         for j in range(K):
             centroids[j] = data[random_indices[j]]
 
@@ -71,7 +72,7 @@ class Standarized_Kmeans:
         return accuracy
 
     @staticmethod
-    def visualize(Clusters, num_samples=10):
+    def visualize(Clusters, X, num_samples=10):
         num_classes = len(Clusters) 
 
         fig, axs = plt.subplots(num_classes, num_samples, figsize=(num_samples, num_classes))
@@ -96,15 +97,15 @@ class Standarized_Kmeans:
         plt.show()
 
 class Kernelized_Kmeans:
-    def __init__(self,num_classes, kernel='linear', gamma_gaussian=10**(-7), gamma_sigmoid=0.0045, coef_sigmoid=0.11):
-        self.k = num_classes
+    def __init__(self,num_clusters, kernel='linear', gamma_gaussian=10**(-7), gamma_sigmoid=0.0045, coef_sigmoid=0.11):
+        self.k = num_clusters
         self.kernel = kernel 
         self.gamma_gaussian = gamma_gaussian
         self.gamma_sigmoid = gamma_sigmoid
         self.coef_sigmoid = coef_sigmoid
 
 
-    def fit(self,X, max_iterations=100):
+    def fit(self, X, maxiter=100):
 
         if self.kernel == 'linear':
             KernelMatrix = (linear_kernel(X/255)+1)*5
@@ -114,11 +115,12 @@ class Kernelized_Kmeans:
             KernelMatrix = sigmoid_kernel(X/250, gamma=self.gamma_sigmoid,coef0=self.coef_sigmoid)
 
         n = X.shape[0]
+        K=self.k
 
         # Randomly initialize clusters
         indcs = np.random.choice(range(K), n)
         
-        for l in range(max_iterations): 
+        for l in range(maxiter): 
             print(f"Iteration number: {l+1}")  # Current iteration
 
             # Compute number of observations per cluster
@@ -144,7 +146,7 @@ class Kernelized_Kmeans:
 
             indcs = upd_indcs.copy()
 
-            if l == max_iterations-1:
+            if l == maxiter-1:
                 print("Max iterations reached without convergence.")
         
         self.Clusters = [[] for _ in range(K)]
@@ -174,7 +176,7 @@ class Kernelized_Kmeans:
         return accuracy
 
     @staticmethod
-    def visualize(Clusters, num_samples=10):
+    def visualize(Clusters, X, num_samples=10):
         num_classes = len(Clusters) 
 
         fig, axs = plt.subplots(num_classes, num_samples, figsize=(num_samples, num_classes))
@@ -197,5 +199,6 @@ class Kernelized_Kmeans:
 
         # Display the plot
         plt.show()
+
 
 
