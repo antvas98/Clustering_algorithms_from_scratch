@@ -12,9 +12,9 @@ class Spectral_clustering:
         self.num_eigen = num_eigen
         self.epsilon = epsilon
     
-    def fit(self, X, normalized = False, maxiter=100):
+    def fit(self, X, normalized = False, maxiter = 100):
 
-        GramMatrix = rbf_kernel(X,gamma=self.gamma) #the Gaussian kernel matrix
+        GramMatrix = rbf_kernel(X,gamma = self.gamma) #the Gaussian kernel matrix
         graphW=np.where(GramMatrix> self.epsilon,1,0) 
 
         #Create D matrix 
@@ -40,7 +40,7 @@ class Spectral_clustering:
 
 
             #Create H for the normalized case (columns of H are the K eigenvectors of Lbar corresponding to K minimal eigenvalues)
-            Lbar_eigenValues, Lbar_eigenVectors =eigsh(csr_Lbar,k=self.num_eigen)
+            Lbar_eigenValues, Lbar_eigenVectors =eigsh(csr_Lbar,k = self.num_eigen)
 
             idx = Lbar_eigenValues.argsort()[::1]   
             Lbar_eigenValues = Lbar_eigenValues[idx]
@@ -52,7 +52,7 @@ class Spectral_clustering:
         else:
 
             #Create H for the unormalized case
-            L_eigenValues, L_eigenVectors =eigsh(csr_L,k=self.num_eigen)
+            L_eigenValues, L_eigenVectors =eigsh(csr_L,k = self.num_eigen)
 
             idx = L_eigenValues.argsort()[::1]   
             L_eigenValues = L_eigenValues[idx]

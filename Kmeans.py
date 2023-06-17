@@ -72,7 +72,7 @@ class Standarized_Kmeans:
         return accuracy
 
     @staticmethod
-    def visualize(Clusters, X, num_samples=10):
+    def visualize(Clusters, X, num_samples = 10):
         num_classes = len(Clusters) 
 
         fig, axs = plt.subplots(num_classes, num_samples, figsize=(num_samples, num_classes))
@@ -199,6 +199,3 @@ class Kernelized_Kmeans:
 
         # Display the plot
         plt.show()
-
-
-
